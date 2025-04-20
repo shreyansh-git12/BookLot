@@ -34,7 +34,7 @@ function App() {
 
   useEffect(() => {
     Axios.get(
-      `https://api.nytimes.com/svc/books/v3/lists/full-overview.json?api-key=AIzaSyBxe_RNChHRiKuFMPhmDtu72eQYkUjl_7Q`
+      `https://api.nytimes.com/svc/books/v3/lists/full-overview.json?api-key=z1zoqTdjPVY1awy7BqfAGItlPl6FE36G`
     )
       .then((res) => {
         setFictionBooksArray(res.data.results.lists[2].books);
@@ -68,33 +68,27 @@ function App() {
   }, [searchTerm, maxResults]);
 
   useEffect(() => {
-    //Get Bookmarks
+    // Get Bookmarks
     const colRef = collection(db, "bookmarks");
-    // queries
 
     if (auth.currentUser?.uid) {
-      const q = query(colRef, where("user", "==", auth.currentUser?.uid));
-      // realtime collection data
-      onSnapshot(q, (snapshot) => {
-        let books = [];
-        snapshot.docs.forEach((doc) => {
-          books.push({ ...doc.data(), id: doc.id });
-        });
-        setBookList(books);
-      });
-    }
+      // Define query
+      const q = query(colRef, where("user", "==", auth.currentUser.uid));
 
-    setTimeout(() => {
-      const q = query(colRef, where("user", "==", auth.currentUser?.uid));
-      // realtime collection data
-      onSnapshot(q, (snapshot) => {
+      // Real-time collection data
+      const unsubscribe = onSnapshot(q, (snapshot) => {
         let books = [];
         snapshot.docs.forEach((doc) => {
           books.push({ ...doc.data(), id: doc.id });
         });
         setBookList(books);
       });
-    }, 3000);
+
+      // Clean up on component unmount or re-render
+      return () => unsubscribe();
+    } else {
+      console.log("No user logged in, skipping Firestore query.");
+    }
   }, [apiLoading, auth?.currentUser?.uid]);
 
   //Loading Screen

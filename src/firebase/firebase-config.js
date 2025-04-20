@@ -4,13 +4,12 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBxe_RNChHRiKuFMPhmDtu72eQYkUjl_7Q",
-  authDomain: "final-eb219.firebaseapp.com",
-  projectId: "final-eb219",
-  storageBucket: "final-eb219.appspot.com",
-  messagingSenderId: "727142720075",
-  appId: "1:727142720075:web:3cf929f1f75556aaf7a3ce",
-  measurementId: "G-K7BRC2KMZB"
+  apiKey: "AIzaSyD4AaxLZbz_QSHIm7J8VlrsLJAP6rFYXl4",
+  authDomain: "booklot-20.firebaseapp.com",
+  projectId: "booklot-20",
+  storageBucket: "booklot-20.firebasestorage.app",
+  messagingSenderId: "264786625283",
+  appId: "1:264786625283:web:e86e0b7fc35b9e64c65f36",
 };
 
 const app = initializeApp(firebaseConfig);
